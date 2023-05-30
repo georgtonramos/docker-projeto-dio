@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  php-apache:
+    image: php:8.0-apache
+    container_name: my-php-apache-app
+    ports:
+      - '80:80'
+    volumes:
+      - /compose/desafio/website:/var/www/html
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senha123
+    ports:
+      - '3306:3306'
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: senha123
+    ports:
+      - '8080:80'
+    volumes:
+      - ./phpconfig.ini:/usr/local/etc/php/conf.d/php-phpmyadmin.ini
